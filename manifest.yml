@@ -1,0 +1,7 @@
+---
+language: python
+applications:
+- name: deepnightmare-viewer
+  memory: 2048M
+  path: ./
+  timeout: 60
