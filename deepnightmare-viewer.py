@@ -13,7 +13,11 @@ import boto
 DOWNLOADPATH = "tmp/"
 OUTPUTPATH = "tmp/"
 
-port = int(os.getenv("PORT"))
+if os.getenv("PORT"):
+	port = int(os.getenv("PORT"))
+else:
+	port = 5000
+
 app = Flask(__name__)
 
 #
@@ -36,7 +40,8 @@ def flasktemplate():
 	before_thumbnail_bucket 	= s3_session.get_bucket(before_thumbnail_bucketname)
 	after_thumbnail_bucket 		= s3_session.get_bucket(after_thumbnail_bucketname)
 	
-	my_dynamic_table = "<CENTER><TABLE align=\"center\">"
+	my_dynamic_table = ""
+	my_dynamic_grid = "<div class=\"container\">"
 	
 	# collect all photos from the before bucket
 
@@ -45,7 +50,9 @@ def flasktemplate():
 		photo_before_url 			= "https://{1}.{0}/{2}.jpg".format(s3_session.server_name(), before_bucketname, photo_before_name)
 		photo_before_thumbnail_name = photo_before_name + ".jpg-thumbnail.jpg"
 		photo_before_thumbnail_url 	= "https://{1}.{0}/{2}".format(s3_session.server_name(), before_thumbnail_bucketname, photo_before_thumbnail_name)
-		my_dynamic_table += "<TR><TD align=\"center\"><a href=\"{}\"><image src = \"{}\"></a></TD>".format(photo_before_url, photo_before_thumbnail_url)
+		my_dynamic_table += "<TR><TD align=\"center\"><a href=\"{}\"><image src = \"{}\" class=\img-responsive img-rounded\"></a></TD>".format(photo_before_url, photo_before_thumbnail_url)
+		my_dynamic_grid  += "<BR>\n<div class=\"row\">\n"
+		my_dynamic_grid  += "<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\">\n<a href=\"{}\"><image src = \"{}\" class=\"center-block img-responsive img-rounded\"></a></div>\n".format(photo_before_url, photo_before_thumbnail_url)
 
 		print ("photo_before_name = ", photo_before_name)
 		print ("photo_before_thumbnail_name = ", photo_before_thumbnail_name)
@@ -65,10 +72,12 @@ def flasktemplate():
 			print ("")
 			sys.stdout.flush()
 			
-			my_dynamic_table += "<TD align=\"center\"><a href=\"{}\"><image src = \"{}\"></a></TD>".format(photo_after_url, photo_after_thumbnail_url)
-		
+			my_dynamic_table += "<TD align=\"center\"><a href=\"{}\"><image src = \"{}\" class=\"img-responsive img-rounded\"></a></TD>".format(photo_after_url, photo_after_thumbnail_url)
+			my_dynamic_grid  += "<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\"> <a href=\"{}\"><image src = \"{}\" class=\"center-block img-responsive img-rounded\"></a></div>\n".format(photo_after_url, photo_after_thumbnail_url)
+	
 		my_dynamic_table += "</TR>"
-
+		my_dynamic_grid += "</DIV><BR><BR>\n"
+	
 
 	# now parse the predreamed images & thumbnails
 	
@@ -90,7 +99,10 @@ def flasktemplate():
 		photo_before_url 			= "https://{1}.{0}/{2}".format(s3_session.server_name(), predreamed_before_bucketname, photo_before_name)
 		photo_before_thumbnail_name = str(photo_before.key) + "-thumbnail.jpg"
 		photo_before_thumbnail_url 	= "https://{1}.{0}/{2}".format(s3_session.server_name(), predreamed_before_thumbnail_bucketname, photo_before_thumbnail_name)
-		my_dynamic_table += "<TR><TD align=\"center\"><a href=\"{}\"><image src = \"{}\"></a></TD>".format(photo_before_url, photo_before_thumbnail_url)
+		
+		my_dynamic_table += "<TR><TD align=\"center\"><a href=\"{}\"><image src = \"{}\" class=\"img-responsive img-rounded\"></a></TD>".format(photo_before_url, photo_before_thumbnail_url)
+		my_dynamic_grid  += "<BR>\n<div class=\"row\">\n"
+		my_dynamic_grid  += "<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\">\n<a href=\"{}\"><image src = \"{}\" class=\"center-block img-responsive img-rounded\"></a></div>\n".format(photo_before_url, photo_before_thumbnail_url)
 
 		# print ("photo_before_name           = ", photo_before_name)
 		# print ("photo_before_thumbnail_name = ", photo_before_thumbnail_name)
@@ -116,13 +128,13 @@ def flasktemplate():
 			# print ("")
 			# sys.stdout.flush()
 			
-			my_dynamic_table += "<TD align=\"center\"><a href=\"{}\"><image src = \"{}\"></a></TD>".format(photo_after_url, photo_after_thumbnail_url)
-		
+			my_dynamic_table += "<TD align=\"center\"><a href=\"{}\"><image src = \"{}\" class=\"img-responsive img-rounded\"></a></TD>".format(photo_after_url, photo_after_thumbnail_url)
+			my_dynamic_grid  += "<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12\"> <a href=\"{}\"><image src = \"{}\" class=\"center-block img-responsive img-rounded\"></a></div>\n".format(photo_after_url, photo_after_thumbnail_url)
+
 		my_dynamic_table += "</TR>"
+		my_dynamic_grid += "</DIV><BR><BR>\n"
 
-	my_dynamic_table += "</TABLE></CENTER>"
-
-	return render_template('album.html', mytable = my_dynamic_table)
+	return render_template('album.html', mytable = my_dynamic_grid)
 
 #
 # create thumbnail images for the before & after buckets
@@ -334,3 +346,5 @@ def s3_sessionlist():
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=port)
+
+#	app.run(host='0.0.0.0', port=port)

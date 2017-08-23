@@ -1,11 +1,143 @@
 <!doctype html>
 <html>
-   <body>
-   
-    <HR><CENTER><H1>Deep Nightmares</H1><HR></CENTER>
-    <CENTER>
+<title>Deep Nightmare Image Viewer</title>
 
-    {{ mytable|safe }}
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Nosifer' rel='stylesheet' type='text/css'>
+
+<style type="text/css">
+.jumbotron{
+    background-color: #2E2D88;
+    color:white;
+}
+
+#websiteTitle{
+  font-size: 10em;
+  vertical-align: middle;
+  font-family: 'Nosifer', cursive;
+  padding-left: 15px;
+  color: #191970;
+}
+
+/* Carousel Styling */
+.slide1{
+  background-image: url("static/background1.jpg");
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide2{
+  background-image: url('static/background2.jpg');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide3{
+  background-image: url('static/background3.jpg');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.carousel-caption h1{
+  font-size: 5.4em;
+  font-family: 'Nosifer', cursive;
+  padding-bottom: .4em;
+}
+.carousel-caption p{
+  font-size: 2em;
+}
+
+</style>
+
+<body>
+
+<div class="container">
+    <!-- Carousel -->
+    <!-- Surround everything with a div with the class carousel slide -->
+
+    <div id="theCarousel" class="carousel slide" data-ride="carousel">
+        
+        <!-- Define how many slides to put in the carousel -->
+        <ol class="carousel-indicators">
+            <li data-target="#theCarousel" data-slide-to="0" class="active"> </li>
+            <li data-target="#theCarousel" data-slide-to="1"> </li>
+            <li data-target="#theCarousel" data-slide-to="2"> </li>
+        </ol >
+        
+         <!-- Define the text to place over the image -->
+         <div class="carousel-inner">
+            <div class="item active" >
+                <div class ="slide1"></div>
+                <div class="carousel-caption">
+                    <h1>Nightmare Images</h1>
+                </div>
+            </div>
+            <div class="item" >
+                <div class ="slide2"></div>
+                <div class="carousel-caption">
+                    <h1>Deep Dreamed by Machine</h1>
+                </div>
+            </div>
+            <div class="item" >
+                <div class ="slide3"></div>
+                <div class="carousel-caption">
+                    <h1>Create Your Own</h1>
+                </div>        
+            </div>
+        
+        <!-- Set the actions to take when the arrows are clicked -->
+        <a class="left carousel-control" href="#theCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"> </span>
+        </a>
+        <a class="right carousel-control" href="#theCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+        </div>
+    </div>
+</div> 
+<!-- end of the container -->
+
+<BR><BR>
     
-    </body>
+<div class="container">
+    <div class="row">
+<!--
+    originally I setup a dynamic table to show the results in a grid
+    NOW I use bootstrap's colum facility which will automatically adjust the # of images on a row depending on the size of the screen
+
+        <TABLE class="table table-bordered table-hover" align="center">
+        <TR>
+            <TH class="text-center">Original Image</TH>
+            <TH class="text-center">Nightmare 1</TH>
+            <TH class="text-center">Nightmare 2</TH>
+         </TR>   
+-->       
+        {{ mytable|safe }}
+ <!--       
+        </TABLE>
+    -->
+    </div>
+</div>
+
+<div class="container">
+    <div class=jumbotron>
+        <P>
+            <button type="button" class="btn btn-primary btn-lg">
+            <span class="glyphicon glyphicon glyphicon-envelope">
+                Email
+            </button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</div>
+</body>
 </html>

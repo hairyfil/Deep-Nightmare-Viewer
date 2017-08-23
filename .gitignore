@@ -1,3 +1,5 @@
 .boto
+test.py
+*.old.py
 tmp/*
 thumbnails/*
